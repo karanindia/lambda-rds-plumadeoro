@@ -1,0 +1,3 @@
+{
+  "query": "INSERT INTO `plumadeorodb`.`usuario` (`id_usuario`, `nombre`, `apellido_paterno`,`apellido_materno`,`correo`,`password`) VALUES (0, 'Nombre Test', 'Apellido P Test','Apellido M Test','correo@gmail.com','secret');"
+}

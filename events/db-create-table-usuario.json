@@ -1,0 +1,3 @@
+{
+  "query": "CREATE TABLE `usuario` (`id_usuario` int(11) NOT NULL AUTO_INCREMENT,`nombre` varchar(45) NOT NULL,`apellido_paterno` varchar(45) NOT NULL,`apellido_materno` varchar(45) DEFAULT NULL,`correo` varchar(75) NOT NULL,`password` varchar(45) NOT NULL, PRIMARY KEY (`id_usuario`)) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+}
