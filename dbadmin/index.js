@@ -1,37 +1,46 @@
 var AWSXRay = require('aws-xray-sdk-core')
 var captureMySQL = require('aws-xray-sdk-mysql')
-var mysql = captureMySQL(require('mysql2'))
+var mysql = captureMySQL(require('mysql2/promise'))
 const username = process.env.databaseUser
 const password = process.env.databasePassword
 const host = process.env.databaseHost
 
 exports.handler = async (event) => {
-    var connection = mysql.createConnection({
+    
+    var action = event.action;
+    var correo = event.correo;
+    var passwordEncrypted = event.passwordEncrypted;
+    
+    var query = "";
+    
+    var connection = await mysql.createConnection({
       host     : host,
       user     : username,
       password : password,
       database : 'plumadeorodb'
     })
-    var query = event.query
-    var result
-    connection.connect()
-
-    connection.query(query, function (error, results, fields) {
-      if (error) throw error
-      console.log("Ran query: " + query)
-      for (result in results)
-        console.log(results[result])
-    })
-
-    return new Promise( ( resolve, reject ) => {
-        connection.end( err => {
-            if ( err )
-                return reject( err )
-            const response = {
-                statusCode: 200,
-                body: JSON.stringify(result),
-            }
-            resolve(response)
-        })
-    })
+        
+    switch (action) {
+        case 'login':
+            console.log("Action Login");
+                query = "SELECT count(password) from usuario where correo = '" + correo +"' and password = '" + passwordEncrypted + "'";
+            break;
+        case 'insert':
+            console.log("Action INSERT");
+                query = "";
+            break;
+    }
+    
+ const [results, fields] = await connection.execute(query);
+ 
+  const response = {
+        statusCode: 200,
+        body: results,
+    }
+            
+  console.log("Results: "+ results);
+  console.log("Fields: " + fields);
+  
+  return response;
+  
 }
