@@ -8,8 +8,6 @@ const host = process.env.databaseHost
 exports.handler = async (event) => {
     
     var action = event.action;
-    var correo = event.correo;
-    var passwordEncrypted = event.passwordEncrypted;
     
     var query = "";
     
@@ -21,25 +19,37 @@ exports.handler = async (event) => {
     })
         
     switch (action) {
+        case 'getUserById':
+            console.log("getUserById");
+            var userId = event.userId;
+                query = "SELECT * FROM usuario WHERE id_usuario=" + userId;
+            break;
         case 'login':
             console.log("Action Login");
-                query = "SELECT count(password) from usuario where correo = '" + correo +"' and password = '" + passwordEncrypted + "'";
+            var correo = event.correo;
+            var passwordEncrypted = event.passwordEncrypted;            
+                query = "SELECT count(password) as result from usuario where correo = '" + correo +"' and password = '" + passwordEncrypted + "'";
             break;
-        case 'insert':
+        case 'register':
             console.log("Action INSERT");
-                query = "";
+            var nombre = event.nombre;
+            var apellido = event.appelido;
+            var correo = event.correo;
+            var passwordEncrypted = event.passwordEncrypted; 
+            
+            query = "INSERT INTO `plumadeorodb`.`usuario` (`id_usuario`, `nombre`, `apellido_paterno`,`correo`,`password`)" +
+                     " VALUES (0, '"+ nombre +"', '" + apellido + "','" + correo + "','" + passwordEncrypted +"')";
+                          
             break;
     }
     
- const [results, fields] = await connection.execute(query);
+ const [results, ] = await connection.execute(query);
  
   const response = {
         statusCode: 200,
         body: results,
     }
             
-  console.log("Results: "+ results);
-  console.log("Fields: " + fields);
   
   return response;
   
