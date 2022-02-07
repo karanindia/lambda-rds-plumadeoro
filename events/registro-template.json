@@ -1,0 +1,8 @@
+{
+  "Template": {
+    "TemplateName": "RegistroTemplate",
+    "SubjectPart": "Bienvenido a Pluma de Oro, {{nombre}}",
+    "TextPart": "Hola {{nombre}},\r\n El registro en nuestro sitio ha sido exitoso. \r\n Att: Equipo de Pluma de Oro. ",
+    "HtmlPart": "<h1>Hola {{nombre}}</h1><p>El registro en nuestro sitio ha sido exitoso.</p> <p> Att: Equipo de Pluma de Oro. </p> "
+  }
+}
